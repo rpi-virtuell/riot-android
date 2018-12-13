@@ -43,8 +43,12 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
 
     var testManager: NotificationTroubleshootTestManager? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_settings_notifications_troubleshoot, container, false)
+    override fun getLayoutResId() = R.layout.fragment_settings_notifications_troubleshoot
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         mRecyclerView = view.findViewById(R.id.troubleshoot_test_recycler_view);
         val layoutManager = LinearLayoutManager(context)
@@ -69,8 +73,6 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
         }
 
         startUI()
-
-        return view
     }
 
     private fun startUI() {
