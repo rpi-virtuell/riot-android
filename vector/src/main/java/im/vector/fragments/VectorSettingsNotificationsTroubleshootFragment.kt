@@ -24,7 +24,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import im.vector.Matrix
@@ -109,10 +108,13 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
                         mRunButton.visibility = View.VISIBLE
                     }
                     TroubleshootTest.TestStatus.RUNNING -> {
+                        //Forces int type because it's breaking lint
+                        val size: Int = it.testList.size
+                        val currentTestIndex: Int = it.currentTestIndex
                         mSummaryDescription.text = getString(
                                 R.string.settings_troubleshoot_diagnostic_running_status,
-                                it.currentTestIndex,
-                                it.testList.size
+                                currentTestIndex,
+                                size
                         )
                         mSummaryButton.visibility = View.GONE
                         mRunButton.visibility = View.GONE
