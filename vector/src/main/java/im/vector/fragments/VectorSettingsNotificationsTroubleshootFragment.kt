@@ -1,22 +1,3 @@
-package im.vector.fragments
-
-import android.content.Intent
-import android.os.Bundle
-import android.support.transition.TransitionManager
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import im.vector.R
-import im.vector.activity.MXCActionBarActivity
-import im.vector.adapters.TroubleshootTest
-import im.vector.push.fcm.NotificationTroubleshootTestManager
-import im.vector.util.BugReporter
-
 /*
  * Copyright 2018 New Vector Ltd
  *
@@ -32,25 +13,65 @@ import im.vector.util.BugReporter
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package im.vector.fragments
+
+import android.content.Intent
+import android.os.Bundle
+import android.support.transition.TransitionManager
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
+import butterknife.BindView
+import im.vector.Matrix
+import im.vector.R
+import im.vector.activity.MXCActionBarActivity
+import im.vector.extensions.withArgs
+import im.vector.fragments.troubleshoot.ANotificationTroubleshootTestManager
+import im.vector.fragments.troubleshoot.TroubleshootTest
+import im.vector.push.fcm.NotificationTroubleshootTestManager
+import im.vector.util.BugReporter
+import org.matrix.androidsdk.MXSession
+
 class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
 
+    @BindView(R.id.troubleshoot_test_recycler_view)
     lateinit var mRecyclerView: RecyclerView
-    lateinit var mBottomView: View
+    @BindView(R.id.bottomView)
+    lateinit var mBottomView: ViewGroup
+    @BindView(R.id.summ_title)
     lateinit var mSummaryTitle: TextView
+    @BindView(R.id.summ_description)
     lateinit var mSummaryDescription: TextView
+    @BindView(R.id.summ_button)
     lateinit var mSummaryButton: Button
+    @BindView(R.id.runButton)
     lateinit var mRunButton: Button
 
     var testManager: NotificationTroubleshootTestManager? = null
+    // members
+    private var mSession: MXSession? = null
 
     override fun getLayoutResId() = R.layout.fragment_settings_notifications_troubleshoot
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val appContext = activity!!.applicationContext
+        // retrieve the arguments
+        val sessionArg = Matrix.getInstance(appContext).getSession(arguments!!.getString(MXCActionBarActivity.EXTRA_MATRIX_ID))
+        mSession = sessionArg
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mRecyclerView = view.findViewById(R.id.troubleshoot_test_recycler_view);
         val layoutManager = LinearLayoutManager(context)
         mRecyclerView.layoutManager = layoutManager
 
@@ -58,11 +79,6 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
                 layoutManager.orientation);
         mRecyclerView.addItemDecoration(dividerItemDecoration)
 
-        mBottomView = view.findViewById(R.id.bottomView)
-        mSummaryTitle = view.findViewById(R.id.summ_title)
-        mSummaryDescription = view.findViewById(R.id.summ_description)
-        mSummaryButton = view.findViewById(R.id.summ_button)
-        mRunButton = view.findViewById(R.id.runButton)
 
         mSummaryButton.setOnClickListener {
             BugReporter.sendBugReport()
@@ -71,7 +87,6 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
         mRunButton.setOnClickListener() {
             testManager?.retry()
         }
-
         startUI()
     }
 
@@ -81,13 +96,11 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
         mSummaryDescription.text = getString(R.string.settings_troubleshoot_diagnostic_running_status)
         mSummaryButton.text = getText(R.string.send_bug_report)
 
-        testManager = NotificationTroubleshootTestManager(this)
+        testManager = NotificationTroubleshootTestManager(this, mSession)
 
         testManager?.statusListener = {
             if (isAdded) {
-                (mBottomView as? ViewGroup)?.let {
-                    TransitionManager.beginDelayedTransition(it)
-                }
+                TransitionManager.beginDelayedTransition(mBottomView)
                 when (it.diagStatus) {
                     TroubleshootTest.TestStatus.NOT_STARTED -> {
                         mSummaryDescription.text = ""
@@ -100,7 +113,6 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
                         mRunButton.visibility = View.GONE
                     }
                     TroubleshootTest.TestStatus.FAILED -> {
-
                         //check if there are quick fixes
                         var hasQuickFix = false
                         testManager?.testList?.let {
@@ -111,7 +123,6 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
                                 }
                             }
                         }
-
                         if (hasQuickFix) {
                             mSummaryDescription.text = getString(R.string.settings_troubleshoot_diagnostic_failure_status_with_quickfix)
                         } else {
@@ -129,15 +140,12 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
             }
 
         }
-
         mRecyclerView.adapter = testManager?.adapter
         testManager?.runDiagnostic()
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == NotificationTroubleshootTestManager.REQ_CODE_APK_FIX) {
+        if (requestCode == ANotificationTroubleshootTestManager.REQ_CODE_FIX) {
             testManager?.retry()
             return
         }
@@ -156,5 +164,10 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
 
     companion object {
         private val LOG_TAG = VectorSettingsNotificationsTroubleshootFragment::class.java.simpleName
+        // static constructor
+        fun newInstance(matrixId: String) = VectorSettingsNotificationsTroubleshootFragment()
+                .withArgs {
+                    putString(MXCActionBarActivity.EXTRA_MATRIX_ID, matrixId)
+                }
     }
 }

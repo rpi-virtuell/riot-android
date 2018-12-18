@@ -221,9 +221,6 @@ class VectorSettingsPreferencesFragment : PreferenceFragmentCompat(), SharedPref
     private val mNotificationPrivacyPreference by lazy {
         findPreference(PreferencesManager.SETTINGS_NOTIFICATION_PRIVACY_PREFERENCE_KEY)
     }
-    private val mNotificationFCMTroubleshoot by lazy {
-        findPreference(PreferencesManager.SETTINGS_NOTIFICATION_TROUBLESHOOT_PREFERENCE_KEY)
-    }
     private val selectedLanguagePreference by lazy {
         findPreference(PreferencesManager.SETTINGS_INTERFACE_LANGUAGE_PREFERENCE_KEY) as Preference
     }
@@ -1039,7 +1036,6 @@ class VectorSettingsPreferencesFragment : PreferenceFragmentCompat(), SharedPref
         mRingtonePreference.isEnabled = !areNotificationAllowed && pushManager.areDeviceNotificationsAllowed()
 
         mNotificationPrivacyPreference.isEnabled = !areNotificationAllowed && pushManager.areDeviceNotificationsAllowed() && pushManager.useFcm()
-
     }
 
     //==============================================================================================================
@@ -1328,7 +1324,6 @@ class VectorSettingsPreferencesFragment : PreferenceFragmentCompat(), SharedPref
             mNotificationPrivacyPreference.summary = notificationPrivacyString
         } else {
             notificationsSettingsCategory.removePreference(mNotificationPrivacyPreference)
-            notificationsSettingsCategory.removePreference(mNotificationFCMTroubleshoot)
         }
     }
 

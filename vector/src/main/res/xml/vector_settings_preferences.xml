@@ -193,13 +193,10 @@
             android:key="SETTINGS_TURN_SCREEN_ON_PREFERENCE_KEY"
             android:title="@string/settings_turn_screen_on" />
 
-
-
-        <Preference
+        <im.vector.preference.VectorPreference
             android:key="SETTINGS_NOTIFICATION_TROUBLESHOOT_PREFERENCE_KEY"
             android:title="@string/settings_notification_troubleshoot"
-            app:fragment="im.vector.fragments.VectorSettingsNotificationsTroubleshootFragment"
-            />
+            app:fragment="im.vector.fragments.VectorSettingsNotificationsTroubleshootFragment" />
 
         <im.vector.preference.VectorPreference
             android:dialogTitle="@string/settings_notification_privacy"

@@ -323,7 +323,6 @@ public class SplashActivity extends MXCActionBarActivity {
         PushManager pushManager = Matrix.getInstance(getApplicationContext()).getPushManager();
 
         if (pushManager.isFcmRegistered()) {
-
             //Issue #2266 It might be possible that the FCMHelper saved token is different
             //than the push manager saved token, and that the pushManager is not aware.
             //And as per current code the pushMgr saved token is sent at each startup (resume?)
@@ -339,8 +338,6 @@ public class SplashActivity extends MXCActionBarActivity {
             } else {
                 pushManager.forceSessionsRegistration(null);
             }
-
-
         } else {
             pushManager.checkRegistrations();
         }

@@ -18,20 +18,24 @@ package im.vector.activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.support.v7.preference.PreferenceManager
 import android.view.MenuItem
 import im.vector.Matrix
 import im.vector.R
 import im.vector.fragments.VectorSettingsNotificationsTroubleshootFragment
 import im.vector.fragments.VectorSettingsPreferencesFragment
+import im.vector.util.PreferencesManager
 
 /**
  * Displays the client settings.
  */
 class VectorSettingsActivity : MXCActionBarActivity(),
-        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback, FragmentManager.OnBackStackChangedListener {
+
 
     private lateinit var vectorSettingsPreferencesFragment: VectorSettingsPreferencesFragment
 
@@ -68,15 +72,20 @@ class VectorSettingsActivity : MXCActionBarActivity(),
         }
 
 
-        supportFragmentManager.addOnBackStackChangedListener {
-            // Update your UI here.
-            if (0 == supportFragmentManager.backStackEntryCount) {
-                supportActionBar?.title = getString(getTitleRes())
-            }
-        }
+        supportFragmentManager.addOnBackStackChangedListener(this)
 
     }
 
+    override fun onDestroy() {
+        supportFragmentManager.removeOnBackStackChangedListener(this)
+        super.onDestroy()
+    }
+
+    override fun onBackStackChanged() {
+        if (0 == supportFragmentManager.backStackEntryCount) {
+            supportActionBar?.title = getString(getTitleRes())
+        }
+    }
 
     override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat?, pref: Preference?): Boolean {
 
@@ -90,44 +99,24 @@ class VectorSettingsActivity : MXCActionBarActivity(),
             return false;
         }
 
-        // Instantiate the new Fragment
-        val args = pref?.extras
-
         var oFragment: Fragment? = null
 
-        if (getString(R.string.settings_notification_troubleshoot) == pref?.title) {
-            oFragment = VectorSettingsNotificationsTroubleshootFragment();
+        if (PreferencesManager.SETTINGS_NOTIFICATION_TROUBLESHOOT_PREFERENCE_KEY == pref?.key) {
+            oFragment = VectorSettingsNotificationsTroubleshootFragment.newInstance(session.myUserId)
         }
 
-
         if (oFragment != null) {
-            oFragment?.setTargetFragment(caller, 0)
+            oFragment.setTargetFragment(caller, 0)
             // Replace the existing Fragment with the new Fragment
             supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.abc_popup_enter, R.anim.abc_popup_exit)
                     .replace(R.id.vector_settings_page, oFragment, pref?.title.toString())
                     .addToBackStack(null)
                     .commit()
-            supportActionBar?.title = pref?.title
-            supportActionBar?.setDisplayHomeAsUpEnabled(true);
             return true
         }
 
         return false;
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            if (0 == supportFragmentManager.backStackEntryCount) {
-                setResult(AppCompatActivity.RESULT_CANCELED)
-                finish()
-            } else {
-                onBackPressed()
-            }
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     companion object {

@@ -16,7 +16,7 @@
         android:id="@+id/bottomView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/cardview_light_background"
+        android:background="?attr/vctr_riot_primary_background_color"
         android:minHeight="80dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -24,7 +24,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/list_divider_color_light" />
+            android:background="?attr/vctr_list_divider_color" />
 
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:textColor="@color/riot_primary_text_color_light"
+            android:textColor="?attr/vctr_riot_primary_text_color"
             android:textStyle="bold"
             tools:text="Troubleshoot Diagnostic" />
 
@@ -49,7 +49,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:textColor="@color/riot_primary_text_color_status"
+            android:textColor="?attr/vctr_default_text_hint_color"
             tools:text="Running..." />
 
 
