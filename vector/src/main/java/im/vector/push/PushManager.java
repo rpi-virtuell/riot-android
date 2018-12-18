@@ -165,6 +165,28 @@ public final class PushManager {
         mRegistrationToken = getStoredRegistrationToken();
     }
 
+    public void deepCheckRegistration(Context context) {
+        if (isFcmRegistered()) {
+            //Issue #2266 It might be possible that the FCMHelper saved token is different
+            //than the push manager saved token, and that the pushManager is not aware.
+            //And as per current code the pushMgr saved token is sent at each startup (resume?)
+            //So anyway, might be a good thing to check that it is synced?
+            //Very defensive code but, ya know :/
+            String fcmToken = FcmHelper.getFcmToken(context);
+            String pushMgrSavedToken = getCurrentRegistrationToken();
+
+            boolean savedTokenAreDifferent = pushMgrSavedToken == null ? fcmToken != null : !pushMgrSavedToken.equals(fcmToken);
+            if (savedTokenAreDifferent) {
+                Log.e(LOG_TAG, "SAVED NOTIFICATION TOKEN NOT IN SYNC");
+                resetFCMRegistration(fcmToken);
+            } else {
+                forceSessionsRegistration(null);
+            }
+        } else {
+            checkRegistrations();
+        }
+    }
+
     /**
      * Check if the FCM registration has been broken with a new token ID.
      * The FCM could have cleared it (onTokenRefresh).

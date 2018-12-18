@@ -19,11 +19,8 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.preference.PreferenceManager
-import android.view.MenuItem
 import im.vector.Matrix
 import im.vector.R
 import im.vector.fragments.VectorSettingsNotificationsTroubleshootFragment
