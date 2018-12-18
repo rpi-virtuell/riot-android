@@ -40,15 +40,15 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
 
     @BindView(R.id.troubleshoot_test_recycler_view)
     lateinit var mRecyclerView: RecyclerView
-    @BindView(R.id.bottomView)
+    @BindView(R.id.troubleshoot_bottom_view)
     lateinit var mBottomView: ViewGroup
-    @BindView(R.id.summ_title)
+    @BindView(R.id.troubleshoot_summ_title)
     lateinit var mSummaryTitle: TextView
-    @BindView(R.id.summ_description)
+    @BindView(R.id.toubleshoot_summ_description)
     lateinit var mSummaryDescription: TextView
-    @BindView(R.id.summ_button)
+    @BindView(R.id.troubleshoot_summ_button)
     lateinit var mSummaryButton: Button
-    @BindView(R.id.runButton)
+    @BindView(R.id.troubleshoot_run_button)
     lateinit var mRunButton: Button
 
     var testManager: NotificationTroubleshootTestManager? = null

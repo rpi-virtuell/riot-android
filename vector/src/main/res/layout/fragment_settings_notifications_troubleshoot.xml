@@ -9,11 +9,11 @@
         android:id="@+id/troubleshoot_test_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomView"
+        app:layout_constraintBottom_toTopOf="@id/troubleshoot_bottom_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/bottomView"
+        android:id="@+id/troubleshoot_bottom_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/vctr_riot_primary_background_color"
@@ -28,7 +28,7 @@
 
 
         <TextView
-            android:id="@+id/summ_title"
+            android:id="@+id/troubleshoot_summ_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -38,10 +38,10 @@
             android:layout_marginRight="8dp"
             android:textColor="?attr/vctr_riot_primary_text_color"
             android:textStyle="bold"
-            tools:text="Troubleshoot Diagnostic" />
+            tools:text="@string/settings_troubleshoot_diagnostic" />
 
         <TextView
-            android:id="@+id/summ_description"
+            android:id="@+id/toubleshoot_summ_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -50,7 +50,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:textColor="?attr/vctr_default_text_hint_color"
-            tools:text="Running..." />
+            tools:text="@string/settings_troubleshoot_diagnostic_running_status" />
 
 
         <LinearLayout
@@ -60,7 +60,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/runButton"
+                android:id="@+id/troubleshoot_run_button"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_gravity="center_vertical"
@@ -72,7 +72,7 @@
                 tools:visibility="visible" />
 
             <Button
-                android:id="@+id/summ_button"
+                android:id="@+id/troubleshoot_summ_button"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_gravity="center_vertical"
