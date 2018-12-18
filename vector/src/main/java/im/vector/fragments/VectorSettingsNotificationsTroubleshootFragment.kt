@@ -93,7 +93,8 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
     private fun startUI() {
 
         mSummaryTitle.text = getString(R.string.settings_troubleshoot_diagnostic)
-        mSummaryDescription.text = getString(R.string.settings_troubleshoot_diagnostic_running_status)
+        mSummaryDescription.text = getString(R.string.settings_troubleshoot_diagnostic_running_status,
+                0,0)
         mSummaryButton.text = getText(R.string.send_bug_report)
 
         testManager = NotificationTroubleshootTestManager(this, mSession)
@@ -108,7 +109,11 @@ class VectorSettingsNotificationsTroubleshootFragment : VectorBaseFragment() {
                         mRunButton.visibility = View.VISIBLE
                     }
                     TroubleshootTest.TestStatus.RUNNING -> {
-                        mSummaryDescription.text = getString(R.string.settings_troubleshoot_diagnostic_running_status, it.currentTestIndex, it.testList.size)
+                        mSummaryDescription.text = getString(
+                                R.string.settings_troubleshoot_diagnostic_running_status,
+                                it.currentTestIndex,
+                                it.testList.size
+                        )
                         mSummaryButton.visibility = View.GONE
                         mRunButton.visibility = View.GONE
                     }

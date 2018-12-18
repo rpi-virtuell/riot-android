@@ -30,7 +30,8 @@ import butterknife.ButterKnife
 import im.vector.R
 import im.vector.ui.themes.ThemeUtils
 
-class NotificationTroubleshootRecyclerViewAdapter(tests: ArrayList<TroubleshootTest>) : RecyclerView.Adapter<NotificationTroubleshootRecyclerViewAdapter.ViewHolder>() {
+class NotificationTroubleshootRecyclerViewAdapter(tests: ArrayList<TroubleshootTest>)
+    : RecyclerView.Adapter<NotificationTroubleshootRecyclerViewAdapter.ViewHolder>() {
 
     private val mTestList: ArrayList<TroubleshootTest> = tests
 

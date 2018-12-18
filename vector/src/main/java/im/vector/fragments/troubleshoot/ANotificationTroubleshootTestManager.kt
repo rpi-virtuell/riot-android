@@ -63,7 +63,7 @@ abstract class ANotificationTroubleshootTestManager(val fragment: Fragment, val 
                             troubleshootTest.status = TroubleshootTest.TestStatus.RUNNING
                             //Cosmetic: Start with a small delay for UI/UX reason (better animation effect) for non async tests
                             handler.postDelayed({
-                                if(fragment.isAdded) {
+                                if (fragment.isAdded) {
                                     troubleshootTest.perform()
                                 }
                             }, 600);
@@ -75,7 +75,7 @@ abstract class ANotificationTroubleshootTestManager(val fragment: Fragment, val 
                 }
             }
         }
-        if(fragment.isAdded) {
+        if (fragment.isAdded) {
             testList.first()?.perform();
         }
     }

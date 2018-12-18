@@ -18,11 +18,8 @@ package im.vector.push.fcm
 import android.app.ActivityManager
 import android.content.Context
 import android.net.ConnectivityManager
-import android.os.Handler
-import android.os.Looper
 import android.support.v4.app.Fragment
 import android.support.v4.net.ConnectivityManagerCompat
-import android.support.v7.app.WindowDecorActionBar
 import im.vector.R
 import im.vector.VectorApp
 import im.vector.fragments.troubleshoot.ANotificationTroubleshootTestManager
@@ -32,7 +29,6 @@ import im.vector.util.PreferencesManager
 import im.vector.util.isIgnoringBatteryOptimizations
 import im.vector.util.requestDisablingBatteryOptimization
 import org.matrix.androidsdk.MXSession
-import java.sql.Time
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -56,7 +52,7 @@ class NotificationTroubleshootTestManager(fragment: Fragment, session: MXSession
         tIndex++
 
         testList.add(object : TroubleshootTest(tIndex, fragment.getString(R.string.settings_troubleshoot_test_service_restart_title)) {
-            var timer : Timer? = null
+            var timer: Timer? = null
             override fun perform() {
                 status = TestStatus.RUNNING
                 EventStreamService.getInstance()?.stopSelf()
@@ -70,7 +66,7 @@ class NotificationTroubleshootTestManager(fragment: Fragment, session: MXSession
                         }
                         timer?.cancel()
                     }
-                },0,1000)
+                }, 0, 1000)
 
                 timer?.schedule(timerTask {
                     fragment.activity?.runOnUiThread {
@@ -120,21 +116,24 @@ class NotificationTroubleshootTestManager(fragment: Fragment, session: MXSession
                             ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED -> {
                                 // Background data usage is blocked for this app. Wherever possible,
                                 // the app should also use less data in the foreground.
-                                description = fragment.getString(R.string.settings_troubleshoot_test_bg_restricted_failed, "RESTRICT_BACKGROUND_STATUS_ENABLED")
+                                description = fragment.getString(R.string.settings_troubleshoot_test_bg_restricted_failed,
+                                        "RESTRICT_BACKGROUND_STATUS_ENABLED")
                                 status = TestStatus.FAILED
                                 quickFix = null
                             }
                             ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
                                 // The app is whitelisted. Wherever possible,
                                 // the app should use less data in the foreground and background.
-                                description = fragment.getString(R.string.settings_troubleshoot_test_bg_restricted_success, "RESTRICT_BACKGROUND_STATUS_WHITELISTED")
+                                description = fragment.getString(R.string.settings_troubleshoot_test_bg_restricted_success,
+                                        "RESTRICT_BACKGROUND_STATUS_WHITELISTED")
                                 status = TestStatus.SUCCESS
                                 quickFix = null
                             }
                             ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED -> {
                                 // Data Saver is disabled. Since the device is connected to a
                                 // metered network, the app should use less data wherever possible.
-                                description = fragment.getString(R.string.settings_troubleshoot_test_bg_restricted_success, "RESTRICT_BACKGROUND_STATUS_DISABLED")
+                                description = fragment.getString(R.string.settings_troubleshoot_test_bg_restricted_success,
+                                        "RESTRICT_BACKGROUND_STATUS_DISABLED")
                                 status = TestStatus.SUCCESS
                                 quickFix = null
                             }

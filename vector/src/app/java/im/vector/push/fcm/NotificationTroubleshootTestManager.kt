@@ -60,7 +60,7 @@ class NotificationTroubleshootTestManager(fragment: Fragment, session: MXSession
         if (session != null) {
             testList.add(object : TroubleshootTest(2, fragment.getString(R.string.settings_troubleshoot_test_account_settings_title)) {
                 override fun perform() {
-                    val defaultRule = session?.dataHandler.bingRulesManager.pushRules().findDefaultRule(BingRule.RULE_ID_DISABLE_ALL)
+                    val defaultRule = session.dataHandler.bingRulesManager.pushRules().findDefaultRule(BingRule.RULE_ID_DISABLE_ALL)
                     if (!defaultRule.isEnabled) {
                         description = fragment.getString(R.string.settings_troubleshoot_test_account_settings_success)
                         quickFix = null
@@ -70,19 +70,20 @@ class NotificationTroubleshootTestManager(fragment: Fragment, session: MXSession
                         quickFix = object : TroubleshootQuickFix(fragment.getString(R.string.settings_troubleshoot_test_account_settings_quickfix)) {
                             override fun doFix() {
                                 if (diagStatus == TestStatus.RUNNING) return; //wait before all is finished
-                                session.dataHandler.bingRulesManager.updateEnableRuleStatus(defaultRule, !defaultRule.isEnabled, object : BingRulesManager.onBingRuleUpdateListener {
-                                    private fun onDone() {
-                                        retry()
-                                    }
+                                session.dataHandler.bingRulesManager.updateEnableRuleStatus(defaultRule, !defaultRule.isEnabled,
+                                        object : BingRulesManager.onBingRuleUpdateListener {
+                                            private fun onDone() {
+                                                retry()
+                                            }
 
-                                    override fun onBingRuleUpdateSuccess() {
-                                        retry()
-                                    }
+                                            override fun onBingRuleUpdateSuccess() {
+                                                retry()
+                                            }
 
-                                    override fun onBingRuleUpdateFailure(errorMessage: String) {
-                                        retry()
-                                    }
-                                })
+                                            override fun onBingRuleUpdateFailure(errorMessage: String) {
+                                                retry()
+                                            }
+                                        })
                             }
                         }
                         status = TestStatus.FAILED

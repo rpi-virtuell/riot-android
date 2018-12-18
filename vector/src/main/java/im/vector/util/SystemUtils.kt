@@ -110,10 +110,10 @@ fun getDeviceLocale(context: Context): Locale {
  */
 fun startNotificationSettingsIntent(fragment: Fragment, requestCode: Int) {
     val intent = Intent()
-    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
         intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
         intent.putExtra(Settings.EXTRA_APP_PACKAGE, fragment.context?.packageName)
-    } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
         intent.putExtra("app_package", fragment.context?.packageName)
         intent.putExtra("app_uid", fragment.context?.applicationInfo?.uid)
