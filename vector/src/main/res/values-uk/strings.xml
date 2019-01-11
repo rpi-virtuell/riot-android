@@ -747,7 +747,6 @@
     <!-- conference call -->
     <string name="conference_call_warning_title">Увага!</string>
     <string name="notification_off">Вимкнено</string>
-    <string name="notification_on">Увімкнено</string>
     <string name="notification_noisy">Гучно</string>
 
     <string name="encrypted_message">Зашифроване повідомлення</string>
@@ -1136,5 +1135,11 @@
     <string name="settings_call_ringtone_use_riot_ringtone">Використовувати стандартний рингтон Riot для вхідних викликів</string>
     <string name="settings_call_ringtone_title">Рингтон вхідного виклику</string>
     <string name="settings_call_ringtone_dialog_title">Оберіть рингтон для викликів:</string>
+
+    <string name="accept">Прийняти</string>
+
+    <string name="auth_accept_policies">Будь ласка, ознайомтесь та прийміть правила цього серверу:</string>
+
+    <string name="encryption_import_room_keys_success">%1$d/%2$d ключ(і/ів) успішно імпортовано.</string>
 
 </resources>
