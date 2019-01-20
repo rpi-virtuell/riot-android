@@ -2,25 +2,25 @@
 <resources>
 
     <!-- main app colors -->
-    <color name="vector_fuchsia_color">#ff0064</color>
+    <color name="vector_fuchsia_color">#367499</color>
     <color name="vector_silver_color">#FFC7C7C7</color>
     <color name="vector_dark_grey_color">#FF999999</color>
 
     <!-- home activity tab bar color -->
-    <color name="tab_favourites">#BD79CC</color>
-    <color name="tab_favourites_secondary">#744C7F</color>
-    <color name="tab_people">#F8A15F</color>
-    <color name="tab_people_secondary">#D97051</color>
-    <color name="tab_rooms">#76CFA6</color>
-    <color name="tab_rooms_secondary">#5EA584</color>
-    <color name="tab_groups">#a6d0e5</color>
-    <color name="tab_groups_secondary">#81bddb</color>
+    <color name="tab_favourites">#367499</color>
+    <color name="tab_favourites_secondary">#367499</color>
+    <color name="tab_people">#367499</color>
+    <color name="tab_people_secondary">#367499</color>
+    <color name="tab_rooms">#367499</color>
+    <color name="tab_rooms_secondary">#367499</color>
+    <color name="tab_groups">#367499</color>
+    <color name="tab_groups_secondary">#367499</color>
 
     <!-- color of the direct chat avatar ring -->
-    <color name="direct_chat_ring_color_light">#8076cfa6</color>
-    <color name="direct_chat_ring_color_dark">#8076cfa6</color>
-    <color name="direct_chat_ring_color_black">#8076cfa6</color>
-    <color name="direct_chat_ring_color_status">#80586C7B</color>
+    <color name="direct_chat_ring_color_light">#367499</color>
+    <color name="direct_chat_ring_color_dark">#367499</color>
+    <color name="direct_chat_ring_color_black">#367499</color>
+    <color name="direct_chat_ring_color_status">#367499</color>
 
     <!-- theses colours are requested a background cannot be set by an ?att on android < 5 -->
     <!-- dedicated drawables are created for each theme -->
@@ -29,8 +29,8 @@
     <color name="riot_primary_background_color_black">#000000</color>
     <color name="riot_primary_background_color_status">#eef2f5</color>
 
-    <color name="primary_color_light_dark">#FF5EA584</color>
-    <color name="primary_color_light">#76CFA6</color>
+    <color name="primary_color_light_dark">#367499</color>
+    <color name="primary_color_light">#367499</color>
 
     <color name="primary_color_dark_dark">#FF191919</color>
     <color name="primary_color_dark">#353535</color>
